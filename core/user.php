@@ -4,14 +4,25 @@ include_once('../core/initialize.php');
 
 class User
 {
+    /** @var PDO */
     private $connection;
 
-
+    /**
+     * Конструктор для класса.
+     *
+     * @param PDO $db Соединение с базой данных.
+     */
     public function __construct($db)
     {
         $this->connection = $db;
     }
 
+    /**
+     * Проверяет, существует ли пользователь с заданным идентификатором в базе данных.
+     *
+     * @param int $userId Идентификатор пользователя для проверки.
+     * @return bool Возвращает true, если пользователь существует, и false в противном случае.
+     */
     private function user_exists($userId)
     {
         $query = 'SELECT COUNT(*) FROM users WHERE id = ' . $userId;
@@ -24,6 +35,11 @@ class User
         return true;
     }
 
+    /**
+     * Считывает всех пользователей из базы данных.
+     *
+     * @return PDOStatement Подготовленное выражение для выполнения запроса.
+     */
     public function read()
     {
         $query = 'SELECT * FROM users';
@@ -32,6 +48,13 @@ class User
         return $stmt;
     }
 
+    /**
+     * Чтение всех прав пользователя.
+     *
+     * @param int $userId Идентификатор пользователя для проверки.
+     * @return bool false если пользователя нет в базе данных.
+     * @return PDOStatement Подготовленный запрос для выполнения.
+     */
     public function user_rights($userId)
     {
         if (!$this->user_exists($userId)) {
@@ -90,6 +113,13 @@ class User
 
         return $userRightsArray;
     }
+    /**
+     * Добавляет пользователя в группу.
+     *
+     * @param int $userId ID пользователя, которого нужно добавить.
+     * @param int $groupId ID группы, в которую нужно добавить пользователя.
+     * @return bool Возвращает true, если пользователь был успешно добавлен в группу, иначе false.
+     */
     public function add_user_to_group($userId, $groupId)
     {
         if (!$this->user_exists($userId)) {
@@ -111,6 +141,13 @@ class User
         return true;
     }
 
+    /**
+     * Удаляет пользователя из группы.
+     *
+     * @param int $userId ID пользователя, которого нужно удалить.
+     * @param int $groupId ID группы, из которой нужно удалить пользователя.
+     * @return bool Возвращает true, если пользователь успешно удален из группы, в противном случае возвращает false.
+     */
     public function remove_user_from_group($userId, $groupId)
     {
         if (!$this->user_exists($userId)) {
