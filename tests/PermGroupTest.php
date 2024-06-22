@@ -3,9 +3,9 @@
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-require_once 'core\initialize.php';
+require_once 'core/initialize.php';
 
-class Perm_group_test extends TestCase
+class PermGroupTest extends TestCase
 {
 
     private Perm_group $perm_group;

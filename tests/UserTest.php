@@ -3,9 +3,9 @@
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-require_once 'core\initialize.php';
+require_once 'core/initialize.php';
 
-class User_test extends TestCase
+class UserTest extends TestCase
 {
 
     private User $user;
