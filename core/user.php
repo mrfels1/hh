@@ -5,7 +5,7 @@ include_once('../core/initialize.php');
 class User
 {
     /** @var PDO */
-    private $connection;
+    public $connection;
 
     /**
      * Конструктор для класса.
@@ -23,7 +23,7 @@ class User
      * @param int $userId Идентификатор пользователя для проверки.
      * @return bool Возвращает true, если пользователь существует, и false в противном случае.
      */
-    private function user_exists($userId)
+    public function user_exists($userId)
     {
         $query = 'SELECT COUNT(*) FROM users WHERE id = ' . $userId;
         $stmt = $this->connection->prepare($query);
@@ -52,13 +52,13 @@ class User
      * Чтение всех прав пользователя.
      *
      * @param int $userId Идентификатор пользователя для проверки.
-     * @return bool false если пользователя нет в базе данных.
-     * @return PDOStatement Подготовленный запрос для выполнения.
+     * 
+     * @return array Подготовленный запрос для выполнения.
      */
     public function user_rights($userId)
     {
         if (!$this->user_exists($userId)) {
-            return false;
+            return array("error" => 'No such user');
         }
         $userRightsArray = array(
             "send_messages" => false,
@@ -132,8 +132,7 @@ class User
 
         $query = 'INSERT IGNORE INTO users_groups (user_id, group_id) VALUES (' . $userId . ',' . $groupId . ')';
         $stmt = $this->connection->prepare($query);
-        $stmt->execute();
-        if (!$stmt) {
+        if (!$stmt->execute()) {
             $errorInfo = $stmt->errorInfo();
             echo "Error: " . $errorInfo[2];
             return false;
@@ -160,8 +159,7 @@ class User
 
         $query = 'DELETE FROM users_groups WHERE user_id = ' . $userId . ' AND group_id = ' . $groupId;
         $stmt = $this->connection->prepare($query);
-        $stmt->execute();
-        if (!$stmt) {
+        if (!$stmt->execute()) {
             $errorInfo = $stmt->errorInfo();
             echo "Error: " . $errorInfo[2];
             return false;

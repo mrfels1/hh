@@ -1,10 +1,10 @@
 <?php
 
-$dbUser = 'root';
-$dbPassword = '';
-$dbName = 'hhdb';
+$dbUser = DB_USER;
+$dbPassword = DB_PASSWORD;
+$dbName = DB_NAME;
 
-$db = new PDO('mysql:host=127.0.0.1;dbname=' . $dbName . '; charset=utf8', $dbUser, $dbPassword);
+$db = new PDO('mysql:host=db;dbname=' . $dbName . '; charset=utf8', $dbUser, $dbPassword);
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

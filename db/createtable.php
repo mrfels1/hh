@@ -1,10 +1,9 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
+$dbUser = DB_USER;
+$dbPassword = DB_PASSWORD;
 
 try {
-    $conn = new PDO("mysql:host=$servername", $username, $password);
+    $conn = new PDO("mysql:host=db", $dbUser, $dbPassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = "CREATE DATABASE IF NOT EXISTS hhdb";
     $conn->exec($sql);

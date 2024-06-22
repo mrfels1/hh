@@ -9,7 +9,6 @@
  */
 namespace PHPUnit\Framework\MockObject;
 
-use function get_debug_type;
 use function sprintf;
 
 /**
@@ -17,15 +16,18 @@ use function sprintf;
  */
 final class IncompatibleReturnValueException extends \PHPUnit\Framework\Exception implements Exception
 {
-    public function __construct(ConfigurableMethod $method, mixed $value)
+    /**
+     * @param mixed $value
+     */
+    public function __construct(ConfigurableMethod $method, $value)
     {
         parent::__construct(
             sprintf(
-                'Method %s may not return value of type %s, its declared return type is "%s"',
-                $method->name(),
-                get_debug_type($value),
-                $method->returnTypeDeclaration(),
-            ),
+                'Method %s may not return value of type %s, its return declaration is "%s"',
+                $method->getName(),
+                is_object($value) ? get_class($value) : gettype($value),
+                $method->getReturnTypeDeclaration()
+            )
         );
     }
 }

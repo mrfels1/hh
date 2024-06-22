@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['user_id'])) {
         $userId = $_GET['user_id'];
         $result = $user->user_rights($userId);
-        if ($result) {
+        if (!isset($result['error'])) {
             $resultArr = array();
             $resultArr['data'] = array();
             array_push($resultArr['data'], $result);
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             echo json_encode($resultArr);
         } else {
             http_response_code(500);
-            echo json_encode(['error' => 'No such user']);
+            echo json_encode($result);
         }
     } else {
         http_response_code(400);
